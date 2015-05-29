@@ -14,5 +14,13 @@
     "gulp-util": "^3.0.4",
     "through2": "^0.6.5",
     "which": "^1.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jshcrowthe/gulp-foreman.git"
+  },
+  "homepage": "https://github.com/jshcrowthe/gulp-foreman",
+  "bugs": {
+    "url": "https://github.com/jshcrowthe/gulp-foreman/issues"
   }
 }
