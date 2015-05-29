@@ -2,8 +2,13 @@ gulp-foreman
 =======================
 
 This is a small foreman runner built for use with `gulp` (although it can be used outside of gulp as well).
+## Install
+Install this plugin by running the following command at your terminal
+```bash
+npm i -S gulp-foreman
+```
 
-## Examples
+## Example Usage
 The following are a different ways to use the plugin
 
 ### Default
