@@ -1,0 +1,18 @@
+{
+  "name": "gulp-foreman",
+  "version": "0.1.0",
+  "description": "A gulp plugin for using foreman in your workflow",
+  "main": "index.js",
+  "keywords": [
+    "gulp",
+    "foreman",
+    "gulpplugin"
+  ],
+  "author": "Josh Crowther <jshcrowthe@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "gulp-util": "^3.0.4",
+    "through2": "^0.6.5",
+    "which": "^1.1.1"
+  }
+}
