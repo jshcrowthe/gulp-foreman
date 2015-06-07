@@ -9,12 +9,12 @@ module.exports = function(config) {
   var command = "foreman";
   var path;
   try {
-    path = which.sync(command);
+    path = command = which.sync(command);
   } catch(e1) {
     console.log('No "foreman" process available trying "nf" (node-foreman)');
     try {
       command = 'nf';
-      path = which.sync(command);
+      path = command = which.sync(command);
     } catch(e2) {
       throw new PluginError(PLUGIN_NAME, 'gulp-foreman: No available "foreman" command found. Please install foreman then try again\n\nEASY INSTALL: npm install -g foreman');
     }
