@@ -20,7 +20,7 @@ module.exports = function(config) {
     }
   }
   console.log('Using executable "' + path + '" to run app');
-  var foreman = spawn(command, buildArgs(config));
+  var foreman = spawn(command, buildArgs(config), config['options']);
 
   foreman.stdout.pipe(process.stdout);
   foreman.stderr.pipe(process.stderr);
@@ -42,6 +42,7 @@ function buildArgs(config) {
 
   args = args.concat(Object.keys(config).map(function(val) {
     val = val.toLowerCase();
+    if (val === 'options') return '';
     if (val === 'env' && Array.isArray(config[val])) config[val] = config[val].join(',');
     return [('--' + val), config[val]];
   })).reduce(function(container, val) {
