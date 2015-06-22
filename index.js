@@ -33,6 +33,8 @@ module.exports = function(config) {
     console.log('Goodbye');
     process.exit();
   });
+
+  return foreman;
 };
 
 function buildArgs(config) {
