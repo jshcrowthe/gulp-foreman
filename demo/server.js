@@ -7,6 +7,7 @@ var server = http.createServer(function(req, res) {
 server.listen(process.env.PORT, function() {
   console.log('Server Environtment:', process.env.TARGET_ENV);
   console.log("Server Port:", process.env.PORT);
+  console.log('Working Directory:', process.cwd());
 
   if (process.env.OTHER_VAR) {
     // Adding a space for display output
