@@ -1,6 +1,6 @@
 {
   "name": "gulp-foreman",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "A gulp plugin for using foreman in your workflow",
   "main": "index.js",
   "keywords": [
