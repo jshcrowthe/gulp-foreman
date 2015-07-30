@@ -8,6 +8,9 @@ var which = require('which');
 module.exports = function(config) {
   var command = "foreman";
   var path;
+
+  if (!config || typeof config !== 'object') config = {};
+
   try {
     path = command = which.sync(command);
   } catch(e1) {
@@ -20,7 +23,8 @@ module.exports = function(config) {
     }
   }
   console.log('Using executable "' + path + '" to run app');
-  var foreman = spawn(command, buildArgs(config));
+
+  var foreman = spawn(command, buildArgs(config), config['options']);
 
   foreman.stdout.pipe(process.stdout);
   foreman.stderr.pipe(process.stderr);
@@ -40,10 +44,9 @@ module.exports = function(config) {
 function buildArgs(config) {
   var args = ["start"];
 
-  if (!config || typeof config !== 'object') config = {};
-
   args = args.concat(Object.keys(config).map(function(val) {
     val = val.toLowerCase();
+    if (val === 'options') return '';
     if (val === 'env' && Array.isArray(config[val])) config[val] = config[val].join(',');
     return [('--' + val), config[val]];
   })).reduce(function(container, val) {
