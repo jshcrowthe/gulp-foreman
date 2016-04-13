@@ -4,6 +4,55 @@ var PluginError = gutil.PluginError;
 var PLUGIN_NAME = 'gulp-foreman';
 var spawn = require("child_process").spawn;
 var which = require('which');
+var temp = require('temp').track();
+var fs = require('fs');
+
+var objToKeyValString = function(obj) {
+  obj = obj && typeof obj === 'object' ? obj : {};
+  return Object.keys(obj).reduce(function(string, key) {
+    string += key;
+    string += '=';
+    string += obj[key];
+    string += '\n';
+    return string;
+  }, '');
+};
+
+var notEnvObj = function(val) { return val !== 'envObj' };
+
+var formatArgs = function(config){
+  return function(val) {
+    val = val.toLowerCase();
+    if (val === 'env' && Array.isArray(config[val])) config[val] = config[val].join(',');
+    return [('--' + val), config[val]];
+  };
+};
+
+var mergeOrAddToArray = function(container, val) {
+  if (Array.isArray(val)) return container.concat(val);
+  container.push(val);
+  return container;
+};
+
+var buildArgs = function(config) {
+  if (!config || typeof config !== 'object') config = {};
+
+  // Validate we have passed a non-null object 
+  if (config.envObj && typeof config.envObj === 'object') {
+    // Create a temporary ENV file
+    var tempFileObj = temp.openSync('gulp-foreman-env');
+
+    // Build the ENV file from the passed object
+    var contents = objToKeyValString(config.envObj);
+    fs.writeFileSync(tempFileObj.path, contents, 'utf8');
+
+    // Set the location of the env to the new path
+    config.env = tempFileObj.path
+  }
+
+  var args = ['start'].concat(Object.keys(config).filter(notEnvObj).map(formatArgs(config))).reduce(mergeOrAddToArray, []);
+  return args;
+};
 
 module.exports = function(config) {
   var command = "foreman";
@@ -36,20 +85,3 @@ module.exports = function(config) {
 
   return foreman;
 };
-
-function buildArgs(config) {
-  var args = ["start"];
-
-  if (!config || typeof config !== 'object') config = {};
-
-  args = args.concat(Object.keys(config).map(function(val) {
-    val = val.toLowerCase();
-    if (val === 'env' && Array.isArray(config[val])) config[val] = config[val].join(',');
-    return [('--' + val), config[val]];
-  })).reduce(function(container, val) {
-    if (Array.isArray(val)) return container.concat(val);
-    container.push(val);
-    return container;
-  }, []);
-  return args;
-}
